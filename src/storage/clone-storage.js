@@ -1,10 +1,30 @@
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
+const os = require('os');
 const supabaseClient = require('./supabase-client');
 
-// Project-relative clones directory
-const CLONES_DIR = path.resolve(__dirname, '..', '..', 'data', 'clones');
+// Project-relative clones directory with fallback for serverless read-only runtimes
+function getClonesDir() {
+  const defaultDir = path.resolve(__dirname, '..', '..', 'data', 'clones');
+  try {
+    if (!fs.existsSync(defaultDir)) {
+      fs.mkdirSync(defaultDir, { recursive: true });
+    }
+    fs.accessSync(defaultDir, fs.constants.W_OK);
+    return defaultDir;
+  } catch (_) {
+    const tmpDir = path.join(os.tmpdir(), 'rebuilt', 'clones');
+    try {
+      if (!fs.existsSync(tmpDir)) {
+        fs.mkdirSync(tmpDir, { recursive: true });
+      }
+    } catch (_) {}
+    return tmpDir;
+  }
+}
+
+const CLONES_DIR = getClonesDir();
 
 /**
  * Generates a unique, URL-safe clone ID based on timestamp and random bytes.
@@ -20,9 +40,11 @@ function generateCloneId() {
  * Ensures the root clones directory exists.
  */
 function ensureClonesDir() {
-  if (!fs.existsSync(CLONES_DIR)) {
-    fs.mkdirSync(CLONES_DIR, { recursive: true });
-  }
+  try {
+    if (!fs.existsSync(CLONES_DIR)) {
+      fs.mkdirSync(CLONES_DIR, { recursive: true });
+    }
+  } catch (_) {}
 }
 
 /**

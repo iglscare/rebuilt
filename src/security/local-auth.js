@@ -8,7 +8,28 @@ const crypto = require('crypto');
 const fs = require('fs');
 const path = require('path');
 
-const VAULT_DIR = path.resolve(__dirname, '..', '..', 'data', 'vault');
+const os = require('os');
+
+function getVaultDir() {
+  const defaultDir = path.resolve(__dirname, '..', '..', 'data', 'vault');
+  try {
+    if (!fs.existsSync(defaultDir)) {
+      fs.mkdirSync(defaultDir, { recursive: true, mode: 0o700 });
+    }
+    fs.accessSync(defaultDir, fs.constants.W_OK);
+    return defaultDir;
+  } catch (_) {
+    const tmpDir = path.join(os.tmpdir(), 'rebuilt', 'vault');
+    try {
+      if (!fs.existsSync(tmpDir)) {
+        fs.mkdirSync(tmpDir, { recursive: true, mode: 0o700 });
+      }
+    } catch (_) {}
+    return tmpDir;
+  }
+}
+
+const VAULT_DIR = getVaultDir();
 const SECRET_FILE = path.join(VAULT_DIR, 'local_session.secret');
 const COOKIE_NAME = 'rebuilt_local_session';
 const SESSION_TTL_MS = 30 * 24 * 60 * 60 * 1000; // 30 days
@@ -17,23 +38,35 @@ let cachedSecret = null;
 
 function getLocalSecret() {
   if (cachedSecret) return cachedSecret;
-  if (!fs.existsSync(VAULT_DIR)) {
-    fs.mkdirSync(VAULT_DIR, { recursive: true, mode: 0o700 });
-  }
 
-  if (fs.existsSync(SECRET_FILE)) {
-    cachedSecret = fs.readFileSync(SECRET_FILE, 'utf8').trim();
+  if (process.env.LOCAL_AUTH_SECRET) {
+    cachedSecret = process.env.LOCAL_AUTH_SECRET;
     return cachedSecret;
   }
 
-  const newSecret = crypto.randomBytes(32).toString('hex');
   try {
-    fs.writeFileSync(SECRET_FILE, newSecret, { mode: 0o600 });
+    const vaultDir = getVaultDir();
+    const secretFile = path.join(vaultDir, 'local_session.secret');
+
+    if (fs.existsSync(secretFile)) {
+      cachedSecret = fs.readFileSync(secretFile, 'utf8').trim();
+      return cachedSecret;
+    }
+
+    const newSecret = crypto.randomBytes(32).toString('hex');
+    try {
+      fs.writeFileSync(secretFile, newSecret, { mode: 0o600 });
+    } catch (_) {
+      try {
+        fs.writeFileSync(secretFile, newSecret);
+      } catch (_) {}
+    }
+    cachedSecret = newSecret;
+    return cachedSecret;
   } catch (_) {
-    fs.writeFileSync(SECRET_FILE, newSecret);
+    cachedSecret = crypto.randomBytes(32).toString('hex');
+    return cachedSecret;
   }
-  cachedSecret = newSecret;
-  return cachedSecret;
 }
 
 /**
@@ -104,27 +137,35 @@ function parseCookies(cookieHeader) {
  * Express middleware to manage and enforce local session cookies for browser clients
  */
 function localAuthMiddleware(req, res, next) {
-  const rawCookieHeader = req.headers.cookie || '';
-  const cookies = parseCookies(rawCookieHeader);
-  const token = cookies[COOKIE_NAME];
+  try {
+    const rawCookieHeader = req.headers.cookie || '';
+    const cookies = parseCookies(rawCookieHeader);
+    const token = cookies[COOKIE_NAME];
 
-  let sessionVerification = verifySessionToken(token);
+    let sessionVerification = verifySessionToken(token);
 
-  if (!sessionVerification.valid) {
-    // Generate new signed local session token
-    const newToken = createSessionToken();
-    sessionVerification = verifySessionToken(newToken);
+    if (!sessionVerification.valid) {
+      // Generate new signed local session token
+      const newToken = createSessionToken();
+      sessionVerification = verifySessionToken(newToken);
 
-    // Set HttpOnly, SameSite=Lax cookie on localhost
-    const cookieDirective = `${COOKIE_NAME}=${encodeURIComponent(newToken)}; Path=/; HttpOnly; SameSite=Lax; Max-Age=2592000`;
-    res.setHeader('Set-Cookie', cookieDirective);
+      // Set HttpOnly, SameSite=Lax cookie on localhost
+      const cookieDirective = `${COOKIE_NAME}=${encodeURIComponent(newToken)}; Path=/; HttpOnly; SameSite=Lax; Max-Age=2592000`;
+      res.setHeader('Set-Cookie', cookieDirective);
+    }
+
+    req.localSession = {
+      id: sessionVerification.sessionId,
+      createdAt: sessionVerification.createdAt,
+      valid: true
+    };
+  } catch (err) {
+    req.localSession = {
+      id: 'fallback-session',
+      createdAt: Date.now(),
+      valid: true
+    };
   }
-
-  req.localSession = {
-    id: sessionVerification.sessionId,
-    createdAt: sessionVerification.createdAt,
-    valid: true
-  };
 
   next();
 }

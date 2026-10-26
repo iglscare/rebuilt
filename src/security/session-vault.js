@@ -7,9 +7,29 @@
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
+const os = require('os');
 const supabaseClient = require('../storage/supabase-client');
 
-const VAULT_DIR = path.resolve(__dirname, '..', '..', 'data', 'vault');
+function getVaultDir() {
+  const defaultDir = path.resolve(__dirname, '..', '..', 'data', 'vault');
+  try {
+    if (!fs.existsSync(defaultDir)) {
+      fs.mkdirSync(defaultDir, { recursive: true, mode: 0o700 });
+    }
+    fs.accessSync(defaultDir, fs.constants.W_OK);
+    return defaultDir;
+  } catch (_) {
+    const tmpDir = path.join(os.tmpdir(), 'rebuilt', 'vault');
+    try {
+      if (!fs.existsSync(tmpDir)) {
+        fs.mkdirSync(tmpDir, { recursive: true, mode: 0o700 });
+      }
+    } catch (_) {}
+    return tmpDir;
+  }
+}
+
+const VAULT_DIR = getVaultDir();
 const VAULT_FILE = path.join(VAULT_DIR, 'sessions.enc');
 const KEY_FILE = path.join(VAULT_DIR, 'vault.key');
 
@@ -24,9 +44,11 @@ let inMemoryVaultCache = null;
  * Ensures the data/vault directory exists with secure permissions
  */
 function ensureVaultDir() {
-  if (!fs.existsSync(VAULT_DIR)) {
-    fs.mkdirSync(VAULT_DIR, { recursive: true, mode: 0o700 });
-  }
+  try {
+    if (!fs.existsSync(VAULT_DIR)) {
+      fs.mkdirSync(VAULT_DIR, { recursive: true, mode: 0o700 });
+    }
+  } catch (_) {}
 }
 
 /**
@@ -44,26 +66,29 @@ function getMasterKey() {
 
   // 2. Read or initialize local key file
   ensureVaultDir();
-  if (fs.existsSync(KEY_FILE)) {
-    const raw = fs.readFileSync(KEY_FILE);
-    if (raw.length === 32) {
-      cachedKey = raw;
-      return cachedKey;
+  try {
+    if (fs.existsSync(KEY_FILE)) {
+      const raw = fs.readFileSync(KEY_FILE);
+      if (raw.length === 32) {
+        cachedKey = raw;
+        return cachedKey;
+      }
+      // If hex formatted (64 chars)
+      if (raw.length === 64) {
+        cachedKey = Buffer.from(raw.toString('utf8'), 'hex');
+        return cachedKey;
+      }
     }
-    // If hex formatted (64 chars)
-    if (raw.length === 64) {
-      cachedKey = Buffer.from(raw.toString('utf8'), 'hex');
-      return cachedKey;
-    }
-  }
+  } catch (_) {}
 
   // Generate new random 256-bit key
   const newKey = crypto.randomBytes(32);
   try {
     fs.writeFileSync(KEY_FILE, newKey, { mode: 0o600 });
   } catch (_) {
-    // Fallback if filesystem permissions restrict explicit mode
-    fs.writeFileSync(KEY_FILE, newKey);
+    try {
+      fs.writeFileSync(KEY_FILE, newKey);
+    } catch (_) {}
   }
   cachedKey = newKey;
   return cachedKey;
@@ -184,7 +209,9 @@ function saveVault(store) {
       try { fs.unlinkSync(tmpFile); } catch (_) {}
     }
     // Fallback direct write
-    fs.writeFileSync(VAULT_FILE, serialized, 'utf8');
+    try {
+      fs.writeFileSync(VAULT_FILE, serialized, 'utf8');
+    } catch (_) {}
   }
 }
 

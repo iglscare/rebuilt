@@ -1263,11 +1263,14 @@ if (require.main === module) {
   });
 }
 
-module.exports = {
-  app,
-  startServer,
-  communicationBridge,
-  livePageRamCache,
-  getLivePageRamCache,
-  setLivePageRamCache
-};
+// Attach helper methods and properties to app for backward compatibility
+app.app = app;
+app.startServer = startServer;
+app.communicationBridge = communicationBridge;
+app.livePageRamCache = livePageRamCache;
+app.getLivePageRamCache = getLivePageRamCache;
+app.setLivePageRamCache = setLivePageRamCache;
+
+// Default export is the Express app function for Vercel and serverless runners
+module.exports = app;
+
