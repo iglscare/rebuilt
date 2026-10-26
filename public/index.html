@@ -1,0 +1,1066 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rebuilt — Clone & Understand Any Website</title>
+  <meta name="description" content="Enter a public website URL to render, analyze its structure, extract resources, detect technologies, and mirror it locally.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" sizes="64x64" href="/favicon.png">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <meta property="og:image" content="/img/logo.png">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body data-theme="light">
+
+  <div class="app-layout">
+    <!-- Left Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="brand-group" id="brand-group">
+          <a href="/" class="logo-link" title="Rebuilt — Dual-Engine Website Cloner">
+            <div class="logo-mark" id="brand-logo-mark">
+              <img src="/img/logo.png" alt="Rebuilt Yin-Yang Koi Logo" class="brand-logo-img" width="38" height="38" />
+              <div class="logo-ambient-aura"></div>
+            </div>
+          </a>
+          <div class="brand-text">
+            <h1 class="brand-title">REBUILT</h1>
+            <span class="brand-tagline">Automated Website Cloner</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation Menu -->
+      <nav class="sidebar-nav">
+        <a href="#dashboard" class="nav-item">
+          <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+            <polyline points="9 22 9 12 15 12 15 22"/>
+          </svg>
+          <span>Dashboard</span>
+        </a>
+
+        <a href="#cloner" class="nav-item active">
+          <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="2" y1="12" x2="22" y2="12"/>
+            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+          </svg>
+          <span>Website Cloner</span>
+        </a>
+
+        <a href="#sitemap" class="nav-item">
+          <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="7" height="7"/>
+            <rect x="14" y="3" width="7" height="7"/>
+            <rect x="14" y="14" width="7" height="7"/>
+            <rect x="3" y="14" width="7" height="7"/>
+          </svg>
+          <span>Site Map</span>
+        </a>
+
+        <a href="#source-explorer" class="nav-item">
+          <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/>
+            <polyline points="10 9 7 12 10 15"/>
+            <polyline points="14 9 17 12 14 15"/>
+          </svg>
+          <span>Source Explorer</span>
+        </a>
+
+        <a href="#api-analyzer" class="nav-item">
+          <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+          </svg>
+          <span>API Analyzer</span>
+        </a>
+
+        <a href="#technology-stack" class="nav-item">
+          <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <ellipse cx="12" cy="5" rx="9" ry="3"/>
+            <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/>
+            <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/>
+          </svg>
+          <span>Technology Stack</span>
+        </a>
+
+        <a href="#ghidra-analyzer" class="nav-item">
+          <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            <circle cx="12" cy="11" r="3"/>
+          </svg>
+          <span>Ghidra Analyzer</span>
+        </a>
+
+        <a href="#security-analysis" class="nav-item">
+          <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            <line x1="12" y1="8" x2="12" y2="14"/>
+            <line x1="9" y1="11" x2="15" y2="11"/>
+          </svg>
+          <span>Security Analysis</span>
+        </a>
+
+        <a href="#osint-tools" class="nav-item">
+          <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+          </svg>
+          <span>OSINT Tools</span>
+        </a>
+
+        <a href="#steganography" class="nav-item">
+          <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+            <circle cx="8.5" cy="8.5" r="1.5"/>
+            <polyline points="21 15 16 10 5 21"/>
+          </svg>
+          <span>Steganography</span>
+        </a>
+
+        <a href="#password-checker" class="nav-item">
+          <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+          </svg>
+          <span>Password Checker</span>
+        </a>
+
+        <a href="#reports" class="nav-item">
+          <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/>
+            <line x1="16" y1="13" x2="8" y2="13"/>
+            <line x1="16" y1="17" x2="8" y2="17"/>
+            <polyline points="10 9 9 9 8 9"/>
+          </svg>
+          <span>Reports</span>
+        </a>
+
+        <a href="#settings" class="nav-item">
+          <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+          </svg>
+          <span>Settings</span>
+        </a>
+      </nav>
+
+      <!-- Bottom Upgrade to Pro Box -->
+      <div class="sidebar-promo">
+        <div class="promo-header">
+          <div class="promo-title-wrap">
+            <svg class="crown-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5m14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1v-1h14v1z"/>
+            </svg>
+            <span class="promo-title">Upgrade to Pro</span>
+          </div>
+          <span class="promo-arrow">&rarr;</span>
+        </div>
+        <ul class="promo-features">
+          <li>Deep crawling</li>
+          <li>Export reports</li>
+          <li>API mapping</li>
+          <li>Priority support</li>
+        </ul>
+      </div>
+    </aside>
+
+    <!-- Main Workspace Area -->
+    <div class="main-wrapper">
+      <!-- Top Navbar -->
+      <header class="top-navbar">
+        <div class="top-left">
+          <span class="nav-breadcrumb">Website Cloner</span>
+
+          <!-- Real-Time Background Status Indicators -->
+          <div class="header-status-group">
+            <button type="button" class="tunnel-status-pill" id="tunnel-status-pill" title="Live Port Forwarding Tunnel (Click for details)">
+              <span class="tunnel-status-dot" id="tunnel-status-dot"></span>
+              <span class="tunnel-status-text" id="tunnel-status-text">Tunnel: Offline</span>
+            </button>
+            <div class="bridge-status-pill" id="bridge-status-pill" title="Live Communication Bridge">
+              <span class="bridge-status-dot"></span>
+              <span class="bridge-status-text" id="bridge-status-text">Bridge Active</span>
+            </div>
+            <span class="status-pulse"></span>
+            <span class="badge-phase">READY</span>
+          </div>
+        </div>
+
+        <div class="top-right">
+          <!-- Dark / Light Theme Toggle -->
+          <button type="button" class="btn-icon" id="btn-theme-toggle" title="Toggle Light / Dark Mode">
+            <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+            </svg>
+            <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none;">
+              <circle cx="12" cy="12" r="5"/>
+              <line x1="12" y1="1" x2="12" y2="3"/>
+              <line x1="12" y1="21" x2="12" y2="23"/>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+              <line x1="1" y1="12" x2="3" y2="12"/>
+              <line x1="21" y1="12" x2="23" y2="12"/>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+            </svg>
+          </button>
+
+          <!-- Notification Bell -->
+          <button type="button" class="btn-icon btn-notification" id="btn-notifications" title="Notifications">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+              <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+            </svg>
+            <span class="notification-badge-dot"></span>
+          </button>
+
+          <!-- User Profile -->
+          <div class="user-profile-badge">
+            <div class="user-avatar-circle">
+              <img src="/img/logo.png" alt="IGLScare" class="user-avatar-img" />
+            </div>
+            <div class="user-info">
+              <span class="user-greeting">Hello,</span>
+              <span class="user-name">IGLScare</span>
+            </div>
+            <svg class="chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"/>
+            </svg>
+          </div>
+        </div>
+      </header>
+
+      <!-- Main Dashboard Page Body -->
+      <main class="page-content">
+        <!-- Hero Section -->
+        <section class="cloner-hero-card">
+          <div class="hero-header-row">
+            <div class="hero-title-group">
+              <span class="hero-pill-badge">Website Cloner</span>
+              <h2 class="hero-main-title">Clone &amp; Understand Any Website</h2>
+              <p class="hero-main-subtitle">Enter a public website URL to render, analyze its structure, extract resources, detect technologies, and mirror it locally.</p>
+            </div>
+
+            <div class="quick-examples-container">
+              <span class="qe-label">Quick Examples</span>
+              <div class="qe-chips-row">
+                <button type="button" class="sample-chip" data-url="https://example.com">example.com</button>
+                <button type="button" class="sample-chip" data-url="https://github.com">github.com</button>
+                <button type="button" class="sample-chip" data-url="https://wikipedia.org">wikipedia.org</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- URL Input Bar -->
+          <form id="clone-form" class="main-url-form" autocomplete="off">
+            <div class="input-search-box">
+              <span class="input-search-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+                  <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+                </svg>
+              </span>
+              <input 
+                type="text" 
+                id="url-input" 
+                name="url" 
+                placeholder="https://example.com" 
+                required 
+                spellcheck="false"
+              />
+              <button type="button" id="btn-clear" class="btn-clear-search" title="Clear input" style="display:none;">&times;</button>
+            </div>
+
+            <!-- Inline Crawl Depth Selector -->
+            <div class="crawl-mode-inline">
+              <span class="crawl-mode-title">Mode:</span>
+              <span class="crawl-mode-hint" id="crawl-mode-hint" style="display:none;">Single Page</span>
+              <div class="crawl-mode-options" id="crawl-mode-group">
+                <button type="button" class="mode-chip active" data-depth="0" data-pages="1">Single</button>
+                <button type="button" class="mode-chip" data-depth="1" data-pages="5">DFS 1</button>
+                <button type="button" class="mode-chip" data-depth="2" data-pages="12">Deep</button>
+              </div>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" id="btn-clone" class="btn-dark-clone">
+              <span class="btn-arrow">&rarr;</span>
+              <span class="btn-text">Clone Website</span>
+              <span class="spinner" style="display: none;"></span>
+            </button>
+
+            <!-- Background Bridge Live URL Button -->
+            <button type="button" id="btn-bridge-url" class="btn-bridge-url" style="display:none;" title="Bridge URL live">⚡ Bridge</button>
+          </form>
+
+          <!-- Pipeline Progress Stepper (Visible during operation) -->
+          <div id="pipeline-stepper" class="pipeline-stepper" style="display: none;">
+            <div class="stepper-title">Rendering Pipeline Execution</div>
+            <div class="steps-list">
+              <div class="step-item" id="step-ssrf">
+                <div class="step-bullet">1</div>
+                <div class="step-label">SSRF &amp; Security Isolation Audit</div>
+                <div class="step-status">Pending</div>
+              </div>
+              <div class="step-item" id="step-browser">
+                <div class="step-bullet">2</div>
+                <div class="step-label">Playwright Chromium Launch</div>
+                <div class="step-status">Pending</div>
+              </div>
+              <div class="step-item" id="step-render">
+                <div class="step-bullet">3</div>
+                <div class="step-label">DOM Hydration &amp; DFS Multi-Page Crawl</div>
+                <div class="step-status">Pending</div>
+              </div>
+              <div class="step-item" id="step-storage">
+                <div class="step-bullet">4</div>
+                <div class="step-label">Cross-Page Rewriting &amp; Manifest Storage</div>
+                <div class="step-status">Pending</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Error Notification Banner -->
+          <div id="error-card" class="error-card" style="display: none;">
+            <div class="error-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+              </svg>
+            </div>
+            <div class="error-body">
+              <div class="error-title" id="error-title">Cloning Failed</div>
+              <div class="error-message" id="error-message"></div>
+            </div>
+          </div>
+
+          <!-- Success Result Card Details Banner -->
+          <div id="result-card" class="result-card" style="display: none;">
+            <div class="result-badges">
+              <div class="badge-success">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                <span>Website rendered</span>
+              </div>
+              <div class="badge-success">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                <span id="badge-cloned-label">Local clone created</span>
+              </div>
+            </div>
+
+            <div class="result-details">
+              <div class="meta-row">
+                <span class="meta-label">Page Title</span>
+                <span class="meta-val highlight" id="res-title">—</span>
+              </div>
+              <div class="meta-row">
+                <span class="meta-label">Original URL</span>
+                <a href="#" target="_blank" rel="noreferrer" class="meta-val url-link" id="res-url">—</a>
+              </div>
+              <div class="meta-row" id="row-live-url" style="display: none;">
+                <span class="meta-label">Live Tunnel URL</span>
+                <div class="live-url-group">
+                  <a href="#" target="_blank" rel="noreferrer" class="meta-val url-link live-url-text" id="res-live-url">—</a>
+                  <button type="button" class="btn-copy-chip" id="btn-quick-copy-live" title="Copy live URL">Copy</button>
+                </div>
+              </div>
+              <div class="meta-grid">
+                <div class="meta-card">
+                  <span class="meta-card-label">Render Time</span>
+                  <span class="meta-card-val" id="res-time">—</span>
+                </div>
+                <div class="meta-card">
+                  <span class="meta-card-label">Total Size</span>
+                  <span class="meta-card-val" id="res-size">—</span>
+                </div>
+                <div class="meta-card">
+                  <span class="meta-card-label">Pages Crawled</span>
+                  <span class="meta-card-val" id="res-pages-count">1 Page</span>
+                </div>
+                <div class="meta-card">
+                  <span class="meta-card-label">Assets Mirrored</span>
+                  <span class="meta-card-val" id="res-assets-count">0 Files</span>
+                </div>
+                <div class="meta-card">
+                  <span class="meta-card-label">Clone ID</span>
+                  <span class="meta-card-val mono" id="res-id">—</span>
+                </div>
+              </div>
+
+              <!-- Pre-Preview Verification Audit -->
+              <div id="res-audit-section" class="audit-section" style="display: none;">
+                <div class="audit-header">
+                  <div class="audit-title-group">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                    </svg>
+                    <span class="audit-title">Autonomous Verification Audit</span>
+                  </div>
+                  <span class="audit-status-badge" id="audit-status-badge">PASSED</span>
+                </div>
+                <div class="audit-grid">
+                  <div class="audit-card">
+                    <span class="audit-card-label">Scroll Traversal</span>
+                    <span class="audit-card-val" id="audit-scroll-val">100% Adaptive</span>
+                  </div>
+                  <div class="audit-card">
+                    <span class="audit-card-label">GSAP / Animations</span>
+                    <span class="audit-card-val" id="audit-anim-val">Settled &amp; Primed</span>
+                  </div>
+                  <div class="audit-card">
+                    <span class="audit-card-label">Preloaders</span>
+                    <span class="audit-card-val" id="audit-preloaders-val">0 Dismissed</span>
+                  </div>
+                  <div class="audit-card">
+                    <span class="audit-card-label">Scroll Locks</span>
+                    <span class="audit-card-val" id="audit-glitches-val">Zero Locks</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Technologies Profiler Section -->
+              <div id="res-tech-section" class="tech-section" style="display: none;">
+                <div class="tech-header">
+                  <div class="tech-title-group">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <polygon points="12 2 2 7 12 12 22 7 12 2"/>
+                      <polyline points="2 17 12 22 22 17"/>
+                      <polyline points="2 12 12 17 22 12"/>
+                    </svg>
+                    <span class="tech-title">Technologies Detected</span>
+                  </div>
+                  <span class="tech-count-badge" id="tech-badge">0 Detected</span>
+                </div>
+                <div class="tech-badges-grid" id="res-tech-list"></div>
+              </div>
+
+              <!-- Multi-Page Crawled Subpages List -->
+              <div id="res-subpages-section" class="subpages-section" style="display: none;">
+                <div class="subpages-header">
+                  <div class="subpages-title-group">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+                    </svg>
+                    <span class="subpages-title">Crawled Pages</span>
+                  </div>
+                  <span class="subpages-count-badge" id="subpages-badge">1 Page</span>
+                </div>
+                <div class="subpages-list" id="res-subpages-list"></div>
+              </div>
+
+              <!-- Media & Component Fidelity Diagnostic Section -->
+              <div id="res-media-section" class="audit-section" style="display: none; margin-top: 14px;">
+                <div class="audit-header">
+                  <div class="audit-title-group">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <polygon points="23 7 16 12 23 17 23 7"/>
+                      <rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
+                    </svg>
+                    <span class="audit-title">Media & Interactive Component Fidelity</span>
+                  </div>
+                  <span class="audit-status-badge badge-pass" id="media-fidelity-badge">Verified</span>
+                </div>
+                <div class="audit-metrics-grid">
+                  <div class="audit-stat">
+                    <span class="stat-lbl">HTML5 Videos</span>
+                    <span class="stat-num" id="stat-videos-count">0</span>
+                  </div>
+                  <div class="audit-stat">
+                    <span class="stat-lbl">Interactive Triggers</span>
+                    <span class="stat-num" id="stat-buttons-count">0</span>
+                  </div>
+                  <div class="audit-stat">
+                    <span class="stat-lbl">Dynamic Components</span>
+                    <span class="stat-num" id="stat-components-count">0</span>
+                  </div>
+                  <div class="audit-stat">
+                    <span class="stat-lbl">Resource Manifest</span>
+                    <span class="stat-num"><a id="link-download-manifest" href="#" target="_blank" style="color: var(--primary, #2563eb); text-decoration: underline; font-size: 13px;">View JSON</a></span>
+                  </div>
+                </div>
+
+                <!-- Verification Run Block -->
+                <div id="verification-panel" style="margin-top: 12px; padding: 12px; background: rgba(37, 99, 235, 0.04); border-radius: 8px; border: 1px solid rgba(37, 99, 235, 0.12);">
+                  <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+                    <div>
+                      <strong style="font-size: 13px;">Side-by-Side Verification Engine</strong>
+                      <div style="font-size: 12px; color: var(--text-muted, #64748b);">Tests original vs clone across buttons, navigation, video playback, and layout responsiveness.</div>
+                    </div>
+                    <button type="button" id="btn-run-verification" class="btn-action-pill secondary" style="padding: 6px 14px; font-size: 12px;">
+                      Run Verification Audit
+                    </button>
+                  </div>
+                  <div id="verification-result-box" style="display: none; margin-top: 10px; font-size: 12px;"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="result-actions">
+              <a id="btn-open-preview" href="#" target="_blank" class="btn-action-pill primary">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                  <polyline points="15 3 21 3 21 9"/>
+                  <line x1="10" y1="14" x2="21" y2="3"/>
+                </svg>
+                <span>Open Local Preview</span>
+              </a>
+              <button type="button" id="btn-copy-live-link" class="btn-action-pill secondary" title="Copy live shareable link for external users/testers">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"/>
+                  <line x1="2" y1="12" x2="22" y2="12"/>
+                  <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                </svg>
+                <span id="btn-copy-live-link-text">Share Live Link</span>
+              </button>
+              <a id="btn-download-source" href="#" class="btn-action-pill secondary" download title="Download complete cloned website source code (ZIP package)">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                  <polyline points="7 10 12 15 17 10"/>
+                  <line x1="12" y1="15" x2="12" y2="3"/>
+                </svg>
+                <span>Download Source</span>
+              </a>
+              <button type="button" id="btn-toggle-frame" class="btn-action-pill outline">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                  <line x1="8" y1="21" x2="16" y2="21"/>
+                  <line x1="12" y1="17" x2="12" y2="21"/>
+                </svg>
+                <span>Toggle Live Frame</span>
+              </button>
+            </div>
+
+            <!-- Embedded In-App Preview Iframe -->
+            <div id="preview-frame-container" class="preview-frame-container" style="display: none;">
+              <div class="frame-bar">
+                <div class="frame-dots">
+                  <span class="dot red"></span>
+                  <span class="dot yellow"></span>
+                  <span class="dot green"></span>
+                </div>
+                <div class="frame-url" id="frame-url-label">http://localhost:3000/clones/...</div>
+              </div>
+              <iframe id="preview-iframe" class="preview-iframe" title="Local Clone Preview" sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-downloads"></iframe>
+            </div>
+          </div>
+        </section>
+
+        <!-- 4 Metrics Cards Row -->
+        <section class="metrics-row">
+          <div class="metric-card">
+            <div class="metric-icon-box">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                <polyline points="14 2 14 8 20 8"/>
+                <line x1="16" y1="13" x2="8" y2="13"/>
+                <line x1="16" y1="17" x2="8" y2="17"/>
+              </svg>
+            </div>
+            <div class="metric-details">
+              <div class="metric-head">
+                <span class="metric-val" id="dash-metric-pages">12</span>
+                <span class="metric-trend up">&uarr; +2</span>
+              </div>
+              <span class="metric-name">Pages Discovered</span>
+            </div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-icon-box">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="16 18 22 12 16 6"/>
+                <polyline points="8 6 2 12 8 18"/>
+              </svg>
+            </div>
+            <div class="metric-details">
+              <div class="metric-head">
+                <span class="metric-val" id="dash-metric-assets">48</span>
+                <span class="metric-trend up">&uarr; +6</span>
+              </div>
+              <span class="metric-name">Assets Found</span>
+            </div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-icon-box">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="18" cy="5" r="3"/>
+                <circle cx="6" cy="12" r="3"/>
+                <circle cx="18" cy="19" r="3"/>
+                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+                <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+              </svg>
+            </div>
+            <div class="metric-details">
+              <div class="metric-head">
+                <span class="metric-val" id="dash-metric-api">18</span>
+                <span class="metric-trend up">&uarr; +3</span>
+              </div>
+              <span class="metric-name">API Endpoints</span>
+            </div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-icon-box">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              </svg>
+            </div>
+            <div class="metric-details">
+              <div class="metric-head">
+                <span class="metric-val" id="dash-metric-security">3</span>
+                <span class="metric-trend alert">&uarr; +1</span>
+              </div>
+              <span class="metric-name">Security Findings</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- Middle Row: Website Architecture (Left) + Technology Stack (Right) -->
+        <section class="dashboard-grid-row">
+          <!-- Website Architecture Card -->
+          <div class="dashboard-panel architecture-panel">
+            <div class="panel-header">
+              <div class="panel-header-left">
+                <div class="panel-header-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="18" cy="5" r="3"/>
+                    <circle cx="6" cy="12" r="3"/>
+                    <circle cx="18" cy="19" r="3"/>
+                    <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+                    <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+                  </svg>
+                </div>
+                <div>
+                  <h3 class="panel-title">Website Architecture</h3>
+                  <p class="panel-subtitle">Interactive map of the discovered website structure</p>
+                </div>
+              </div>
+
+              <div class="panel-header-actions">
+                <button type="button" class="btn-subtle" title="Search nodes">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                </button>
+                <div class="zoom-pill">
+                  <span>100%</span>
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+                </div>
+                <button type="button" class="btn-subtle" title="Fullscreen">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
+                </button>
+                <button type="button" class="btn-filter-pill">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+                  <span>Filters</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="architecture-canvas">
+              <div class="arch-flow-diagram" id="arch-flow-diagram">
+                <!-- Root Domain Node -->
+                <div class="arch-root-wrapper">
+                  <div class="arch-root-card">
+                    <span class="arch-globe-icon">🌐</span>
+                    <div class="arch-root-meta">
+                      <span class="arch-root-url" id="arch-root-url">https://example.com</span>
+                      <span class="arch-root-label">Root Domain</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- SVG Bezier Connector Lines -->
+                <div class="arch-svg-container">
+                  <svg class="arch-connector-paths" viewBox="0 0 800 230" preserveAspectRatio="none">
+                    <!-- Root to Tier 1 -->
+                    <path d="M 400 20 C 400 50, 100 50, 100 85" stroke="var(--border-color)" stroke-width="1.8" fill="none" />
+                    <path d="M 400 20 C 400 50, 300 50, 300 85" stroke="var(--border-color)" stroke-width="1.8" fill="none" />
+                    <path d="M 400 20 C 400 50, 500 50, 500 85" stroke="var(--border-color)" stroke-width="1.8" fill="none" />
+                    <path d="M 400 20 C 400 50, 700 50, 700 85" stroke="var(--border-color)" stroke-width="1.8" fill="none" />
+                    <!-- Tier 1 to Tier 2 -->
+                    <path d="M 100 135 C 100 155, 175 155, 175 175" stroke="var(--border-color)" stroke-width="1.8" fill="none" />
+                    <path d="M 300 135 C 300 155, 395 155, 395 175" stroke="var(--border-color)" stroke-width="1.8" fill="none" />
+                    <path d="M 500 135 C 500 155, 615 155, 615 175" stroke="var(--border-color)" stroke-width="1.8" fill="none" />
+                  </svg>
+                </div>
+
+                <!-- Tier 1 Nodes -->
+                <div class="arch-tier-row tier-1" id="arch-tier-1">
+                  <div class="arch-node">
+                    <div class="arch-node-main">
+                      <div class="node-icon-sq"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></div>
+                      <div class="node-text">
+                        <span class="node-path">/</span>
+                        <span class="node-label">Home</span>
+                      </div>
+                    </div>
+                    <span class="node-badge blue">12 assets</span>
+                  </div>
+
+                  <div class="arch-node">
+                    <div class="arch-node-main">
+                      <div class="node-icon-sq"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg></div>
+                      <div class="node-text">
+                        <span class="node-path">/about</span>
+                        <span class="node-label">About</span>
+                      </div>
+                    </div>
+                    <span class="node-badge blue">8 assets</span>
+                  </div>
+
+                  <div class="arch-node">
+                    <div class="arch-node-main">
+                      <div class="node-icon-sq"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg></div>
+                      <div class="node-text">
+                        <span class="node-path">/products</span>
+                        <span class="node-label">Products</span>
+                      </div>
+                    </div>
+                    <span class="node-badge gray">15 assets</span>
+                  </div>
+
+                  <div class="arch-node">
+                    <div class="arch-node-main">
+                      <div class="node-icon-sq"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"/><rect x="2" y="14" width="20" height="8" rx="2" ry="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg></div>
+                      <div class="node-text">
+                        <span class="node-path">/api</span>
+                        <span class="node-label">API</span>
+                      </div>
+                    </div>
+                    <span class="node-badge pink">6 endpoints</span>
+                  </div>
+                </div>
+
+                <!-- Tier 2 Nodes -->
+                <div class="arch-tier-row tier-2" id="arch-tier-2">
+                  <div class="arch-node">
+                    <div class="arch-node-main">
+                      <div class="node-icon-sq"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg></div>
+                      <div class="node-text">
+                        <span class="node-path">/assets</span>
+                        <span class="node-label">Static Files</span>
+                      </div>
+                    </div>
+                    <span class="node-badge gray">42 files</span>
+                  </div>
+
+                  <div class="arch-node">
+                    <div class="arch-node-main">
+                      <div class="node-icon-sq"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
+                      <div class="node-text">
+                        <span class="node-path">/blog</span>
+                        <span class="node-label">Blog</span>
+                      </div>
+                    </div>
+                    <span class="node-badge blue">5 pages</span>
+                  </div>
+
+                  <div class="arch-node">
+                    <div class="arch-node-main">
+                      <div class="node-icon-sq"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+                      <div class="node-text">
+                        <span class="node-path">/contact</span>
+                        <span class="node-label">Contact</span>
+                      </div>
+                    </div>
+                    <span class="node-badge gray">3 assets</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Technology Stack Card -->
+          <div class="dashboard-panel tech-stack-panel">
+            <div class="panel-header">
+              <div class="panel-header-left">
+                <div class="panel-header-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polygon points="12 2 2 7 12 12 22 7 12 2"/>
+                    <polyline points="2 17 12 22 22 17"/>
+                    <polyline points="2 12 12 17 22 12"/>
+                  </svg>
+                </div>
+                <div>
+                  <h3 class="panel-title">Technology Stack</h3>
+                  <p class="panel-subtitle">Detected technologies from the analyzed website</p>
+                </div>
+              </div>
+              <button type="button" class="btn-panel-action" id="btn-view-all-tech">View All</button>
+            </div>
+
+            <div class="tech-table-wrapper">
+              <table class="tech-table">
+                <thead>
+                  <tr>
+                    <th>Technology</th>
+                    <th>Category</th>
+                    <th>Version</th>
+                    <th>Confidence</th>
+                  </tr>
+                </thead>
+                <tbody id="dash-tech-tbody">
+                  <tr>
+                    <td><div class="tech-cell"><span class="tech-badge-icon react">⚛</span><span class="tech-name">React</span></div></td>
+                    <td class="tech-category">Frontend</td>
+                    <td class="tech-version">18.2.0</td>
+                    <td><span class="conf-pill high">High</span></td>
+                  </tr>
+                  <tr>
+                    <td><div class="tech-cell"><span class="tech-badge-icon next">▲</span><span class="tech-name">Next.js</span></div></td>
+                    <td class="tech-category">Frontend</td>
+                    <td class="tech-version">13.4.0</td>
+                    <td><span class="conf-pill high">High</span></td>
+                  </tr>
+                  <tr>
+                    <td><div class="tech-cell"><span class="tech-badge-icon node">⬢</span><span class="tech-name">Node.js</span></div></td>
+                    <td class="tech-category">Runtime</td>
+                    <td class="tech-version">16.x</td>
+                    <td><span class="conf-pill med">Medium</span></td>
+                  </tr>
+                  <tr>
+                    <td><div class="tech-cell"><span class="tech-badge-icon express">ex</span><span class="tech-name">Express.js</span></div></td>
+                    <td class="tech-category">Backend</td>
+                    <td class="tech-version">4.18.2</td>
+                    <td><span class="conf-pill med">Medium</span></td>
+                  </tr>
+                  <tr>
+                    <td><div class="tech-cell"><span class="tech-badge-icon nginx">N</span><span class="tech-name">Nginx</span></div></td>
+                    <td class="tech-category">Web Server</td>
+                    <td class="tech-version">1.20.1</td>
+                    <td><span class="conf-pill low">Low</span></td>
+                  </tr>
+                  <tr>
+                    <td><div class="tech-cell"><span class="tech-badge-icon mongo">🍃</span><span class="tech-name">MongoDB</span></div></td>
+                    <td class="tech-category">Database</td>
+                    <td class="tech-version">5.0</td>
+                    <td><span class="conf-pill low">Low</span></td>
+                  </tr>
+                  <tr>
+                    <td><div class="tech-cell"><span class="tech-badge-icon tailwind">≈</span><span class="tech-name">Tailwind CSS</span></div></td>
+                    <td class="tech-category">CSS Framework</td>
+                    <td class="tech-version">3.3.0</td>
+                    <td><span class="conf-pill high">High</span></td>
+                  </tr>
+                  <tr>
+                    <td><div class="tech-cell"><span class="tech-badge-icon ts">TS</span><span class="tech-name">TypeScript</span></div></td>
+                    <td class="tech-category">Language</td>
+                    <td class="tech-version">4.9.x</td>
+                    <td><span class="conf-pill med">Medium</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- Bottom Row: Live Communication Bridge (Left) + Local Clones Library (Right) -->
+        <section class="dashboard-grid-row">
+          <!-- Live Communication Bridge -->
+          <div class="dashboard-panel bridge-panel">
+            <div class="panel-header">
+              <div class="panel-header-left">
+                <div class="panel-header-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M5 12.55a11 11 0 0 1 14.08 0"/>
+                    <path d="M1.42 9a16 16 0 0 1 21.16 0"/>
+                    <path d="M8.53 16.11a6 6 0 0 1 6.95 0"/>
+                    <line x1="12" y1="20" x2="12.01" y2="20"/>
+                  </svg>
+                </div>
+                <div>
+                  <h3 class="panel-title">Live Communication Bridge</h3>
+                  <p class="panel-subtitle">Real-time logs and network activity between frontend and backend</p>
+                </div>
+              </div>
+
+              <div class="panel-header-actions">
+                <div class="live-pill-indicator">
+                  <span class="live-dot-pulse"></span>
+                  <span>Live</span>
+                </div>
+                <button type="button" id="btn-clear-bridge" class="btn-subtle-text">Clear</button>
+                <button type="button" id="btn-toggle-bridge" class="btn-subtle" title="Fullscreen Bridge">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
+                </button>
+                <span id="bridge-packet-count" style="display:none;">0 events</span>
+              </div>
+            </div>
+
+            <div class="bridge-workspace">
+              <!-- Left Filter Navigation -->
+              <div class="bridge-filter-nav">
+                <button type="button" class="bridge-nav-btn active" data-filter="all">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                  <span>All Events</span>
+                </button>
+                <button type="button" class="bridge-nav-btn" data-filter="network">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                  <span>Network</span>
+                </button>
+                <button type="button" class="bridge-nav-btn" data-filter="resources">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                  <span>Resources</span>
+                </button>
+                <button type="button" class="bridge-nav-btn" data-filter="console">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+                  <span>Console</span>
+                </button>
+                <button type="button" class="bridge-nav-btn" data-filter="errors">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                  <span>Errors</span>
+                </button>
+              </div>
+
+              <!-- Terminal Area -->
+              <div id="bridge-terminal" class="bridge-terminal-screen">
+                <div class="bridge-log-line system">
+                  <span class="log-time">09:07:21</span>
+                  <span class="log-dot dot-blue">•</span>
+                  <span class="log-badge tag-system">SYSTEM</span>
+                  <span class="log-text">Connecting to Rebuilt Real-Time Event Bridge...</span>
+                </div>
+                <div class="bridge-log-line system">
+                  <span class="log-time">09:07:21</span>
+                  <span class="log-dot dot-blue">•</span>
+                  <span class="log-badge tag-system">SYSTEM</span>
+                  <span class="log-text">Communication bridge connected to backend engine</span>
+                </div>
+                <div class="bridge-log-line crawl">
+                  <span class="log-time">09:07:22</span>
+                  <span class="log-dot dot-purple">•</span>
+                  <span class="log-badge tag-crawl">CRAWL</span>
+                  <span class="log-text">Fetching page: https://example.com</span>
+                </div>
+                <div class="bridge-log-line network">
+                  <span class="log-time">09:07:22</span>
+                  <span class="log-dot dot-green">•</span>
+                  <span class="log-badge tag-network">NETWORK</span>
+                  <span class="log-text">GET https://example.com <span class="tag-http-200">200</span> <span class="tag-latency">482ms</span></span>
+                </div>
+                <div class="bridge-log-line asset">
+                  <span class="log-time">09:07:23</span>
+                  <span class="log-dot dot-teal">•</span>
+                  <span class="log-badge tag-asset">ASSET</span>
+                  <span class="log-text">Found 12 assets (JS: 4, CSS: 2, Images: 6)</span>
+                </div>
+                <div class="bridge-log-line api">
+                  <span class="log-time">09:07:23</span>
+                  <span class="log-dot dot-gold">•</span>
+                  <span class="log-badge tag-api">API</span>
+                  <span class="log-text">Discovered 6 API endpoints</span>
+                </div>
+                <div class="bridge-log-line tech">
+                  <span class="log-time">09:07:24</span>
+                  <span class="log-dot dot-purple">•</span>
+                  <span class="log-badge tag-tech">TECH</span>
+                  <span class="log-text">Detected 8 technologies</span>
+                </div>
+                <div class="bridge-log-line map">
+                  <span class="log-time">09:07:25</span>
+                  <span class="log-dot dot-indigo">•</span>
+                  <span class="log-badge tag-map">MAP</span>
+                  <span class="log-text">Building website architecture...</span>
+                </div>
+                <div class="bridge-log-line success">
+                  <span class="log-time">09:07:26</span>
+                  <span class="log-dot dot-green">•</span>
+                  <span class="log-badge tag-success">SUCCESS</span>
+                  <span class="log-text">Analysis completed successfully</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Local Clones Library -->
+          <div class="dashboard-panel library-panel">
+            <div class="panel-header">
+              <div class="panel-header-left">
+                <div class="panel-header-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <ellipse cx="12" cy="5" rx="9" ry="3"/>
+                    <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/>
+                    <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/>
+                  </svg>
+                </div>
+                <div>
+                  <h3 class="panel-title">Local Clones Library</h3>
+                  <p class="panel-subtitle">Previously cloned websites</p>
+                </div>
+              </div>
+
+              <div class="panel-header-actions">
+                <div class="search-input-mini">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                  <input type="text" id="history-search-input" placeholder="Search clones..." />
+                </div>
+                <button type="button" id="btn-refresh-history" class="btn-subtle" title="Refresh list">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+                </button>
+                <button type="button" id="btn-clear-history" style="display:none;">Clear</button>
+              </div>
+            </div>
+
+            <!-- Clones list scrollable -->
+            <div class="library-items-list" id="history-list">
+              <!-- Dynamically populated from API -->
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <!-- Tunnel Manager Modal -->
+  <div id="tunnel-modal" class="tunnel-modal" style="display: none;">
+    <div class="tunnel-modal-backdrop" id="tunnel-modal-backdrop"></div>
+    <div class="tunnel-modal-content">
+      <div class="tunnel-modal-header">
+        <div class="tunnel-title-group">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="2" y1="12" x2="22" y2="12"/>
+            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+          </svg>
+          <h3>Live Port Forwarding &amp; Tunnels</h3>
+        </div>
+        <button type="button" class="btn-close-modal" id="btn-close-tunnel-modal">&times;</button>
+      </div>
+      <div class="tunnel-modal-body">
+        <p class="tunnel-desc">
+          Expose your local cloner server to the internet so you can share live interactive clone links with external devices, users, or testers.
+        </p>
+
+        <div class="tunnel-status-card" id="tunnel-status-card">
+          <div class="tsc-header">
+            <span class="tsc-badge offline" id="tsc-status-badge">OFFLINE</span>
+            <span class="tsc-provider" id="tsc-provider-label">localtunnel</span>
+          </div>
+          <div class="tsc-url-box" id="tsc-url-box" style="display: none;">
+            <span class="tsc-url-label">Public Base URL:</span>
+            <div class="tsc-url-row">
+              <input type="text" id="tsc-public-url" readonly />
+              <button type="button" class="btn-copy-chip" id="btn-copy-tunnel-base">Copy</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="tunnel-actions">
+          <button type="button" class="btn-dark-clone" id="btn-toggle-tunnel" style="width:100%; justify-content:center;">Start Public Tunnel</button>
+        </div>
+
+        <div class="tunnel-cli-hint">
+          <span>Terminal commands:</span>
+          <code>npm run tunnel</code> &bull; <code>npm run dev:tunnel</code>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/bridge-client.js"></script>
+  <script src="/js/app.js"></script>
+</body>
+</html>

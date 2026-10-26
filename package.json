@@ -1,0 +1,43 @@
+{
+  "name": "rebuilt-web-cloner",
+  "version": "1.0.0",
+  "description": "Rebuilt - Automated Website Cloner (Foundation Phase)",
+  "main": "server.js",
+  "scripts": {
+    "setup": "node scripts/setup.js",
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "test": "node scripts/test-foundation.js",
+    "test:media": "node scripts/test-media-cloning.js",
+    "test:bridge": "node scripts/test-communication-bridge.js",
+    "test:phase2": "node scripts/test-phase2-network-discovery.js",
+    "test:phase3": "node scripts/test-phase3-communication-bridge.js",
+    "test:phase4": "node scripts/test-phase4-frontend-bridge-integration.js",
+    "test:phase5": "node scripts/test-phase5-auth-adapter.js",
+    "test:engine": "node scripts/test-cloning-engine-fix.js",
+    "test:bridge-controlled": "node scripts/test-communication-bridge-controlled.js",
+    "test:tunnel": "node scripts/test-tunnel.js",
+    "tunnel": "node scripts/tunnel.js",
+    "tunnel:lt": "node scripts/tunnel.js --provider=localtunnel",
+    "tunnel:cloudflare": "node scripts/tunnel.js --provider=cloudflared",
+    "tunnel:ssh": "node scripts/tunnel.js --provider=ssh",
+    "dev:tunnel": "node scripts/dev-tunnel.js"
+  },
+  "keywords": [
+    "web-cloner",
+    "playwright",
+    "offline-mirror",
+    "crawler",
+    "website-downloader"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.117.1",
+    "compression": "^1.8.2",
+    "express": "^4.21.2",
+    "ipaddr.js": "^2.2.0",
+    "localtunnel": "^2.0.2",
+    "playwright": "^1.50.1"
+  }
+}

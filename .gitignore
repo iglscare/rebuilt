@@ -1,0 +1,25 @@
+# Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment and secrets
+.env
+.env.local
+.env.*.local
+data/vault/
+
+# Runtime data & cloned assets
+data/clones/
+data/tunnel-info.json
+data/tunnel-url.txt
+data/active-port.txt
+data/*.png
+
+# Scratch scripts and temporary screenshots
+scratch/
+
+# OS metadata
+.DS_Store
+Thumbs.db

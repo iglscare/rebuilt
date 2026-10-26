@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rebuilt — Automated Website Cloner</title>
+  <meta name="description" content="Rebuilt is a high-performance automated website cloner and offline mirror engine powered by Playwright headless rendering.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="glow-bg"></div>
+
+  <!-- Main App Container -->
+  <div class="app-container">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="brand-group">
+        <div class="logo-mark">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <h1 class="brand-title">REBUILT</h1>
+          <span class="brand-tagline">Automated Website Cloner</span>
+        </div>
+      </div>
+
+      <div class="header-status">
+        <button type="button" class="tunnel-status-pill" id="tunnel-status-pill" title="Live Port Forwarding Tunnel (Click for details)">
+          <span class="tunnel-status-dot" id="tunnel-status-dot"></span>
+          <span class="tunnel-status-text" id="tunnel-status-text">Tunnel: Offline</span>
+        </button>
+        <div class="bridge-status-pill" id="bridge-status-pill" title="Live Communication Bridge">
+          <span class="bridge-status-dot"></span>
+          <span class="bridge-status-text" id="bridge-status-text">Bridge Active</span>
+        </div>
+        <span class="status-pulse"></span>
+        <span class="badge-phase">READY</span>
+      </div>
+    </header>
+
+    <!-- Main Card -->
+    <main class="main-content">
+      <section class="cloner-card">
+        <div class="card-header">
+          <h2 class="card-title">Clone Web Page</h2>
+          <p class="card-subtitle">
+            Submit any public website URL to render via headless Chromium, extract full JavaScript-hydrated DOM, and mirror locally.
+          </p>
+        </div>
+
+        <!-- URL Input Form -->
+        <form id="clone-form" class="clone-form" autocomplete="off">
+          <div class="input-wrapper">
+            <span class="input-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="2" y1="12" x2="22" y2="12"/>
+                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+              </svg>
+            </span>
+            <input 
+              type="text" 
+              id="url-input" 
+              name="url" 
+              placeholder="https://example.com" 
+              required 
+              spellcheck="false"
+            />
+            <button type="button" id="btn-clear" class="btn-clear" title="Clear input" style="display:none;">&times;</button>
+          </div>
+
+          <div class="crawl-mode-container">
+            <div class="crawl-mode-header">
+              <span class="crawl-mode-label">Crawl Mode:</span>
+              <span class="crawl-mode-hint" id="crawl-mode-hint">Single Page (Fastest)</span>
+            </div>
+            <div class="crawl-mode-options" id="crawl-mode-group">
+              <button type="button" class="mode-chip active" data-depth="0" data-pages="1">
+                <span class="mode-name">Single Page</span>
+                <span class="mode-meta">Depth 0 &bull; 1 page</span>
+              </button>
+              <button type="button" class="mode-chip" data-depth="1" data-pages="5">
+                <span class="mode-name">Standard DFS</span>
+                <span class="mode-meta">Depth 1 &bull; Up to 5 pages</span>
+              </button>
+              <button type="button" class="mode-chip" data-depth="2" data-pages="12">
+                <span class="mode-name">Deep DFS</span>
+                <span class="mode-meta">Depth 2 &bull; Up to 12 pages</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <div class="quick-samples">
+              <span class="sample-label">Try sample:</span>
+              <button type="button" class="sample-chip" data-url="https://example.com">example.com</button>
+              <button type="button" class="sample-chip" data-url="https://httpbin.org/html">httpbin.org/html</button>
+            </div>
+            
+            <div class="action-buttons-group" style="display:flex; gap:10px;">
+              <button type="button" id="btn-bridge-url" class="btn-bridge-url" title="Bridge URL live with real-time bidirectional communication">
+                <span>⚡ Bridge URL to Web</span>
+              </button>
+              <button type="submit" id="btn-clone" class="btn-primary">
+                <span class="btn-text">Clone Website</span>
+                <span class="spinner" style="display: none;"></span>
+              </button>
+            </div>
+          </div>
+        </form>
+
+        <!-- Pipeline Progress Stepper (Visible during operation) -->
+        <div id="pipeline-stepper" class="pipeline-stepper" style="display: none;">
+          <div class="stepper-title">Rendering Pipeline Execution</div>
+          <div class="steps-list">
+            <div class="step-item" id="step-ssrf">
+              <div class="step-bullet">1</div>
+              <div class="step-label">SSRF & Security Isolation Audit</div>
+              <div class="step-status">Pending</div>
+            </div>
+            <div class="step-item" id="step-browser">
+              <div class="step-bullet">2</div>
+              <div class="step-label">Playwright Chromium Launch</div>
+              <div class="step-status">Pending</div>
+            </div>
+            <div class="step-item" id="step-render">
+              <div class="step-bullet">3</div>
+              <div class="step-label">DOM Hydration & DFS Multi-Page Crawl</div>
+              <div class="step-status">Pending</div>
+            </div>
+            <div class="step-item" id="step-storage">
+              <div class="step-bullet">4</div>
+              <div class="step-label">Cross-Page Rewriting & Manifest Storage</div>
+              <div class="step-status">Pending</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Error Notification Banner -->
+        <div id="error-card" class="error-card" style="display: none;">
+          <div class="error-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="12" y1="8" x2="12" y2="12"/>
+              <line x1="12" y1="16" x2="12.01" y2="16"/>
+            </svg>
+          </div>
+          <div class="error-body">
+            <div class="error-title" id="error-title">Cloning Failed</div>
+            <div class="error-message" id="error-message"></div>
+          </div>
+        </div>
+
+        <!-- Success Result Card -->
+        <div id="result-card" class="result-card" style="display: none;">
+          <div class="result-badges">
+            <div class="badge-success">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              <span>Website rendered</span>
+            </div>
+            <div class="badge-success">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              <span id="badge-cloned-label">Local clone created</span>
+            </div>
+          </div>
+
+          <div class="result-details">
+            <div class="meta-row">
+              <span class="meta-label">Page Title</span>
+              <span class="meta-val highlight" id="res-title">—</span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-label">Original URL</span>
+              <a href="#" target="_blank" rel="noreferrer" class="meta-val url-link" id="res-url">—</a>
+            </div>
+            <div class="meta-row" id="row-live-url">
+              <span class="meta-label">Live Shareable Link</span>
+              <div class="live-url-group">
+                <a href="#" target="_blank" rel="noreferrer" class="meta-val url-link live-url-text" id="res-live-url">—</a>
+                <button type="button" class="btn-copy-chip" id="btn-quick-copy-live" title="Copy live URL">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                  <span>Copy</span>
+                </button>
+              </div>
+            </div>
+            <div class="meta-grid">
+              <div class="meta-card">
+                <span class="meta-card-label">Render Time</span>
+                <span class="meta-card-val" id="res-time">—</span>
+              </div>
+              <div class="meta-card">
+                <span class="meta-card-label">HTML Size</span>
+                <span class="meta-card-val" id="res-size">—</span>
+              </div>
+              <div class="meta-card">
+                <span class="meta-card-label">Pages Saved</span>
+                <span class="meta-card-val" id="res-pages-count">1 Page</span>
+              </div>
+              <div class="meta-card">
+                <span class="meta-card-label">Assets Saved</span>
+                <span class="meta-card-val" id="res-assets-count">0 Files</span>
+              </div>
+              <div class="meta-card">
+                <span class="meta-card-label">Clone ID</span>
+                <span class="meta-card-val mono" id="res-id">—</span>
+              </div>
+            </div>
+
+            <!-- Pre-Preview Verification Audit Section -->
+            <div id="res-audit-section" class="audit-section" style="display: none;">
+              <div class="audit-header">
+                <span class="audit-title">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                    <polyline points="9 12 11 14 15 10"/>
+                  </svg>
+                  Pre-Preview Verification Audit
+                </span>
+                <span class="audit-status-badge" id="audit-status-badge">PASSED</span>
+              </div>
+              <div class="audit-grid">
+                <div class="audit-card">
+                  <span class="audit-card-label">Scroll Coverage</span>
+                  <span class="audit-card-val" id="audit-scroll-val">100% Adaptive</span>
+                </div>
+                <div class="audit-card">
+                  <span class="audit-card-label">Animations</span>
+                  <span class="audit-card-val" id="audit-anim-val">Settled & Primed</span>
+                </div>
+                <div class="audit-card">
+                  <span class="audit-card-label">Preloaders Cleared</span>
+                  <span class="audit-card-val" id="audit-preloaders-val">0 Dismissed</span>
+                </div>
+                <div class="audit-card">
+                  <span class="audit-card-label">Glitch Shield</span>
+                  <span class="audit-card-val" id="audit-glitches-val">Zero Locks</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Technology Stack (Wappalyzer) Section -->
+            <div id="res-tech-section" class="tech-section" style="display: none;">
+              <div class="tech-header">
+                <span class="tech-title">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polygon points="12 2 2 7 12 12 22 7 12 2"/>
+                    <polyline points="2 17 12 22 22 17"/>
+                    <polyline points="2 12 12 17 22 12"/>
+                  </svg>
+                  Technologies Identified (Wappalyzer)
+                </span>
+                <span class="tech-count-badge" id="tech-badge">0 Detected</span>
+              </div>
+              <div class="tech-badges-grid" id="res-tech-list"></div>
+            </div>
+
+            <!-- Crawled Subpages Tree Section -->
+            <div id="res-subpages-section" class="subpages-section" style="display: none;">
+              <div class="subpages-header">
+                <span class="subpages-title">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+                  </svg>
+                  Crawled Subpages
+                </span>
+                <span class="subpages-count-badge" id="subpages-badge">1 Page</span>
+              </div>
+              <div class="subpages-list" id="res-subpages-list"></div>
+            </div>
+          </div>
+
+          <div class="result-actions">
+            <a id="btn-open-preview" href="#" target="_blank" class="btn-preview">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                <polyline points="15 3 21 3 21 9"/>
+                <line x1="10" y1="14" x2="21" y2="3"/>
+              </svg>
+              <span>Open Preview</span>
+            </a>
+            <button type="button" id="btn-copy-live-link" class="btn-live-link" title="Copy live shareable link for external users/testers">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="2" y1="12" x2="22" y2="12"/>
+                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+              </svg>
+              <span id="btn-copy-live-link-text">Share Live Link</span>
+            </button>
+            <a id="btn-download-source" href="#" class="btn-download" download title="Download complete cloned website source code (ZIP package)">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                <polyline points="7 10 12 15 17 10"/>
+                <line x1="12" y1="15" x2="12" y2="3"/>
+              </svg>
+              <span>Download Source</span>
+            </a>
+            <button type="button" id="btn-toggle-frame" class="btn-secondary">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                <line x1="8" y1="21" x2="16" y2="21"/>
+                <line x1="12" y1="17" x2="12" y2="21"/>
+              </svg>
+              <span>Toggle Live Frame</span>
+            </button>
+          </div>
+
+          <!-- Embedded In-App Preview Iframe -->
+          <div id="preview-frame-container" class="preview-frame-container" style="display: none;">
+            <div class="frame-bar">
+              <div class="frame-dots">
+                <span class="dot red"></span>
+                <span class="dot yellow"></span>
+                <span class="dot green"></span>
+              </div>
+              <div class="frame-url" id="frame-url-label">http://localhost:3000/clones/...</div>
+            </div>
+            <iframe id="preview-iframe" class="preview-iframe" title="Local Clone Preview" sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-downloads"></iframe>
+          </div>
+        </div>
+      </section>
+
+      <!-- Real-Time Communication Bridge Terminal -->
+      <section class="bridge-monitor-section">
+        <div class="bridge-monitor-header">
+          <div class="bridge-monitor-title-group">
+            <span class="bridge-icon">⚡</span>
+            <h3 class="bridge-monitor-title">Live Communication Bridge</h3>
+            <span class="bridge-badge" id="bridge-packet-count">0 events</span>
+          </div>
+          <div class="bridge-controls">
+            <button type="button" id="btn-clear-bridge" class="btn-bridge-action" title="Clear log">Clear</button>
+            <button type="button" id="btn-toggle-bridge" class="btn-bridge-action" title="Toggle activity feed">Collapse</button>
+          </div>
+        </div>
+        <div id="bridge-terminal" class="bridge-terminal">
+          <div class="bridge-log-line system">
+            <span class="log-time">--:--:--</span>
+            <span class="log-tag">[SYSTEM]</span>
+            <span class="log-msg">Connecting to Rebuilt Real-Time Event Bridge...</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- History of Saved Clones -->
+      <section class="history-section">
+        <div class="history-header">
+          <h3 class="history-title">Local Clones Library</h3>
+          <div class="history-controls">
+            <button type="button" id="btn-clear-history" class="btn-clear-history" title="Clear all clones">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="3 6 5 6 21 6"/>
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+              </svg>
+              <span>Clear All</span>
+            </button>
+            <button type="button" id="btn-refresh-history" class="btn-refresh" title="Refresh list">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="23 4 23 10 17 10"/>
+                <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div id="history-list" class="history-grid">
+          <div class="history-empty">No clones saved yet. Enter a URL above to create your first clone.</div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+      <div>Rebuilt Foundation Engine &bull; Modular Offline Mirroring with Playwright</div>
+    </footer>
+  </div>
+
+  <!-- Tunnel Manager Modal -->
+  <div id="tunnel-modal" class="tunnel-modal" style="display: none;">
+    <div class="tunnel-modal-backdrop" id="tunnel-modal-backdrop"></div>
+    <div class="tunnel-modal-content">
+      <div class="tunnel-modal-header">
+        <div class="tunnel-title-group">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="2" y1="12" x2="22" y2="12"/>
+            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+          </svg>
+          <h3>Live Port Forwarding & Tunnels</h3>
+        </div>
+        <button type="button" class="btn-close-modal" id="btn-close-tunnel-modal">&times;</button>
+      </div>
+      <div class="tunnel-modal-body">
+        <p class="tunnel-desc">
+          Expose your local cloner server to the internet so you can share live interactive clone links with external devices, users, or testers.
+        </p>
+
+        <div class="tunnel-status-card" id="tunnel-status-card">
+          <div class="tsc-header">
+            <span class="tsc-badge offline" id="tsc-status-badge">OFFLINE</span>
+            <span class="tsc-provider" id="tsc-provider-label">localtunnel</span>
+          </div>
+          <div class="tsc-url-box" id="tsc-url-box" style="display: none;">
+            <span class="tsc-url-label">Public Base URL:</span>
+            <div class="tsc-url-row">
+              <input type="text" id="tsc-public-url" readonly />
+              <button type="button" class="btn-copy-chip" id="btn-copy-tunnel-base">Copy</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="tunnel-actions">
+          <button type="button" class="btn-primary" id="btn-toggle-tunnel">Start Public Tunnel</button>
+        </div>
+
+        <div class="tunnel-cli-hint">
+          <span>Terminal commands:</span>
+          <code>npm run tunnel</code> &bull; <code>npm run dev:tunnel</code>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/bridge-client.js"></script>
+  <script src="/js/app.js"></script>
+</body>
+</html>
